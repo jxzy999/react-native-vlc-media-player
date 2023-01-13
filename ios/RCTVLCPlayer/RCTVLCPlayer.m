@@ -102,11 +102,15 @@ static NSString *const playbackRate = @"rate";
     _player.scaleFactor = 0;
     VLCMedia *media = [VLCMedia mediaWithURL:_uri];
 
-    NSMutableDictionary *options = [NSMutableDictionary new];
-    [options setObject:@"1" forKey:@"rtsp-tcp"];
-    [options setObject:@"1000" forKey:@"input-repeat"];
-    [media addOptions:[options copy]];
-    options = nil;
+//     NSMutableDictionary *options = [NSMutableDictionary new];
+//     [options setObject:@"1" forKey:@"rtsp-tcp"];
+//     [options setObject:@"1000" forKey:@"input-repeat"];
+//     [media addOptions:[options copy]];
+//     options = nil;
+    
+    for (NSString* option in initOptions) {
+        [media addOption:[option stringByReplacingOccurrencesOfString:@"--" withString:@""]];
+    }
 
     _player.media = media;
     [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
@@ -137,11 +141,15 @@ static NSString *const playbackRate = @"rate";
 
     VLCMedia *media = [VLCMedia mediaWithURL:_uri];
 
-    NSMutableDictionary *options = [NSMutableDictionary new];
-    [options setObject:@"1" forKey:@"rtsp-tcp"];
-    [options setObject:@"1000" forKey:@"input-repeat"];
-    [media addOptions:[options copy]];
-    options = nil;
+//     NSMutableDictionary *options = [NSMutableDictionary new];
+//     [options setObject:@"1" forKey:@"rtsp-tcp"];
+//     [options setObject:@"1000" forKey:@"input-repeat"];
+//     [media addOptions:[options copy]];
+//     options = nil;
+
+    for (NSString* option in initOptions) {
+        [media addOption:[option stringByReplacingOccurrencesOfString:@"--" withString:@""]];
+    }
 
     _player.media = media;
     [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
@@ -180,7 +188,7 @@ static NSString *const playbackRate = @"rate";
                                      @"target": self.reactTag
                                      });
                 break;
-            case VLCMediaPlayerStateStopped:
+            case VLCMediaPlayerStateStopping:
                 NSLog(@"VLCMediaPlayerStateStopped %i",1);
                 self.onVideoStopped(@{
                                       @"target": self.reactTag
@@ -201,7 +209,7 @@ static NSString *const playbackRate = @"rate";
                                       @"duration":[NSNumber numberWithInt:[_player.media.length intValue]]
                                       });
                 break;
-            case VLCMediaPlayerStateEnded:
+            case VLCMediaPlayerStateESDeleted:
                 NSLog(@"VLCMediaPlayerStateEnded %i",1);
                 int currentTime   = [[_player time] intValue];
                 int remainingTime = [[_player remainingTime] intValue];
