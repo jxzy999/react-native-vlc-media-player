@@ -188,7 +188,7 @@ static NSString *const playbackRate = @"rate";
                                      @"target": self.reactTag
                                      });
                 break;
-            case VLCMediaPlayerStateStopping:
+            case VLCMediaPlayerStateStopped:
                 NSLog(@"VLCMediaPlayerStateStopped %i",1);
                 self.onVideoStopped(@{
                                       @"target": self.reactTag
@@ -209,7 +209,7 @@ static NSString *const playbackRate = @"rate";
                                       @"duration":[NSNumber numberWithInt:[_player.media.length intValue]]
                                       });
                 break;
-            case VLCMediaPlayerStateESDeleted:
+            case VLCMediaPlayerStateEnded:
                 NSLog(@"VLCMediaPlayerStateEnded %i",1);
                 int currentTime   = [[_player time] intValue];
                 int remainingTime = [[_player remainingTime] intValue];
